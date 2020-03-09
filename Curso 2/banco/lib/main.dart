@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:banco/screens/dashboard.dart';
 
 import 'package:banco/database/app_database.dart';
-import 'models/contato.dart';
 
 void main() {
   runApp(Banco());
