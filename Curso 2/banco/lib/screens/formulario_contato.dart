@@ -1,6 +1,17 @@
+import 'package:banco/models/contato.dart';
 import 'package:flutter/material.dart';
 
-class FormularioContato extends StatelessWidget {
+class FormularioContato extends StatefulWidget {
+
+  @override
+  _FormularioContatoState createState() => _FormularioContatoState();
+}
+
+class _FormularioContatoState extends State<FormularioContato> {
+  
+  final TextEditingController _nomeCompleto = TextEditingController();
+  final TextEditingController _numeroDaConta = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +48,12 @@ class FormularioContato extends StatelessWidget {
                 width: double.maxFinite,
                 child: RaisedButton(
                   child: Text("Novo"),
-                  onPressed: null,
+                  onPressed: () {
+                    final String nome = _nomeCompleto.text;
+                    final int numeroConta = int.tryParse(_numeroDaConta.text);
+                    final Contato novoContato = Contato(nome, numeroConta);
+                    Navigator.pop(context, novoContato);
+                  },
                 ),
               ),
             ),

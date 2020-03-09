@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:banco/screens/formulario_contato.dart';
 
 class ListaContatatos extends StatelessWidget {
   @override
@@ -25,7 +25,17 @@ class ListaContatatos extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context)
+              .push(
+                MaterialPageRoute(
+                  builder: (context) => FormularioContato(),
+                ),
+              )
+              .then(
+                (novoContato) => debugPrint(novoContato.toString()),
+              );
+        },
         child: Icon(Icons.add),
       ),
     );
