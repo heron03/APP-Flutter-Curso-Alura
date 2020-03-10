@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:banco/screens/dashboard.dart';
 
-import 'package:banco/database/app_database.dart';
-
 void main() {
   runApp(Banco());
-  findAll().then((contatos) => debugPrint(contatos.toString())); 
 }
 
 class Banco extends StatelessWidget {

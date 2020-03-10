@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:banco/database/app_database.dart';
 import 'package:banco/screens/formulario_contato.dart';
 import 'package:banco/models/contato.dart';
 
 class ListaContatatos extends StatelessWidget {
-
-  final List<Contato> contatos = List();
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +11,20 @@ class ListaContatatos extends StatelessWidget {
       appBar: AppBar(
         title: Text('Contatos'),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          final Contato contato = contatos[index];
+      body: FutureBuilder(
+        future: findAll(),
+        builder: (context, snapshot) {
+          final List<Contato> contatos = snapshot.data;
+          return ListView.builder(
+            itemBuilder: (context, index) {
+            final Contato contato = contatos[index];
 
-          return _ContatoItem(contato);
-        },
+            return _ContatoItem(contato);
+          },
         itemCount: contatos.length,
-      ),
+      );
+      }),
+      
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
