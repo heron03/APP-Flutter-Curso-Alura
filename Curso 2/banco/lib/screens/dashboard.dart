@@ -1,5 +1,5 @@
-import 'package:banco/screens/lista_contatos.dart';
 import 'package:flutter/material.dart';
+import 'package:banco/screens/lista_contato.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -24,7 +24,7 @@ class Dashboard extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ListaContatatos(),
+                      builder: (context) => ListaContato(),
                     ),
                   );
                 },
