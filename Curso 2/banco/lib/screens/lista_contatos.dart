@@ -4,27 +4,40 @@ import 'package:banco/screens/formulario_contato.dart';
 import 'package:banco/models/contato.dart';
 
 class ListaContatatos extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Contatos'),
       ),
-      body: FutureBuilder(
-        future: findAll(),
-        builder: (context, snapshot) {
-          final List<Contato> contatos = snapshot.data;
-          return ListView.builder(
-            itemBuilder: (context, index) {
-            final Contato contato = contatos[index];
+      body: FutureBuilder<List<Contato>>(
+          initialData: List(),
+          future: findAll(),
+          builder: (context, snapshot) {
+            if (snapshot.data != null) {
+              final List<Contato> contatos = snapshot.data;
 
-            return _ContatoItem(contato);
-          },
-        itemCount: contatos.length,
-      );
-      }),
-      
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  final Contato contato = contatos[index];
+
+                  return _ContatoItem(contato);
+                },
+                itemCount: contatos.length,
+              );
+            }
+
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                  Text('Aguarde'),
+                ],
+              ),
+            );
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
@@ -47,7 +60,7 @@ class _ContatoItem extends StatelessWidget {
   final Contato contato;
 
   _ContatoItem(this.contato);
-  
+
   @override
   Widget build(BuildContext context) {
     return Card(
