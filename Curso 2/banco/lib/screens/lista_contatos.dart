@@ -14,29 +14,38 @@ class ListaContatatos extends StatelessWidget {
           initialData: List(),
           future: findAll(),
           builder: (context, snapshot) {
-            if (snapshot.data != null) {
-              final List<Contato> contatos = snapshot.data;
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                break;
+              case ConnectionState.waiting:
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      CircularProgressIndicator(),
+                      Text('Aguarde'),
+                    ],
+                  ),
+                );
+                break;
+              case ConnectionState.active:
+                break;
+              case ConnectionState.done:
+                final List<Contato> contatos = snapshot.data;
 
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final Contato contato = contatos[index];
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    final Contato contato = contatos[index];
 
-                  return _ContatoItem(contato);
-                },
-                itemCount: contatos.length,
-              );
+                    return _ContatoItem(contato);
+                  },
+                  itemCount: contatos.length,
+                );
+                break;
             }
 
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  CircularProgressIndicator(),
-                  Text('Aguarde'),
-                ],
-              ),
-            );
+            return Text('Ocorreu um Erro');
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
