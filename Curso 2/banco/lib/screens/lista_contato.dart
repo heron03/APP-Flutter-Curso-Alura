@@ -1,9 +1,14 @@
-import 'package:flutter/material.dart';
 import 'package:banco/database/app_database.dart';
-import 'package:banco/screens/formulario_contato.dart';
 import 'package:banco/models/contato.dart';
+import 'package:banco/screens/formulario_contato.dart';
+import 'package:flutter/material.dart';
 
-class ListaContatatos extends StatelessWidget {
+class ListaContatato extends StatefulWidget {
+  @override
+  _ListaContatatoState createState() => _ListaContatatoState();
+}
+
+class _ListaContatatoState extends State<ListaContatato> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,19 +52,20 @@ class ListaContatatos extends StatelessWidget {
 
             return Text('Ocorreu um Erro');
           }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context)
-              .push(
-                MaterialPageRoute(
-                  builder: (context) => FormularioContato(),
-                ),
-              )
-              .then(
-                (novoContato) => debugPrint(novoContato.toString()),
-              );
+        floatingActionButton: FloatingActionButton(
+        onPressed: () async{
+          await Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => FormularioContato(),
+            ),
+          );
+          setState(() {
+
+          }); 
         },
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+        ),
       ),
     );
   }

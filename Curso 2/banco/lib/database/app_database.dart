@@ -10,12 +10,15 @@ Future<Database> createDatabase() {
           'id INTEGER PRIMARY KEY, '
           'nome TEXT, '
           'numeroConta INTEGER) ');
-    }, version: 1);
+    }, 
+    version: 1, 
+  //  onDowngrade: onDatabaseDowngradeDelete,
+    );
   });
 }
 
 Future<int> save(Contato contato) {
-  return createDatabase().then((db){
+  return createDatabase().then((db) {
     final Map<String, dynamic> contatoMap = Map();
     contatoMap['nome'] = contato.nome;
     contatoMap['numeroConta'] = contato.numeroConta;
