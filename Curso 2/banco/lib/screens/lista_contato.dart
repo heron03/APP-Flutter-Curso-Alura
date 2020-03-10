@@ -1,14 +1,14 @@
-import 'package:banco/database/app_database.dart';
+import 'package:banco/database/dao/contato_dao.dart';
 import 'package:banco/models/contato.dart';
 import 'package:banco/screens/formulario_contato.dart';
 import 'package:flutter/material.dart';
 
-class ListaContatato extends StatefulWidget {
-  @override
-  _ListaContatatoState createState() => _ListaContatatoState();
-}
 
-class _ListaContatatoState extends State<ListaContatato> {
+
+ class ListaContatato extends StatelessWidget {
+
+  final ContatoDao _dao = ContatoDao();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,8 +16,9 @@ class _ListaContatatoState extends State<ListaContatato> {
         title: Text('Contatos'),
       ),
       body: FutureBuilder<List<Contato>>(
+
           initialData: List(),
-          future: findAll(),
+          future: _dao.findAll(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -53,15 +54,12 @@ class _ListaContatatoState extends State<ListaContatato> {
             return Text('Ocorreu um Erro');
           }),
         floatingActionButton: FloatingActionButton(
-        onPressed: () async{
-          await Navigator.of(context).push(
+        onPressed: () {
+          Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => FormularioContato(),
             ),
           );
-          setState(() {
-
-          }); 
         },
         child: Icon(
           Icons.add,

@@ -1,6 +1,6 @@
 import 'package:banco/models/contato.dart';
 import 'package:flutter/material.dart';
-import 'package:banco/database/app_database.dart';
+import 'package:banco/database/dao/contato_dao.dart';
 
 class FormularioContato extends StatefulWidget {
   @override
@@ -10,6 +10,7 @@ class FormularioContato extends StatefulWidget {
 class _FormularioContatoState extends State<FormularioContato> {
   final TextEditingController _nomeCompleto = TextEditingController();
   final TextEditingController _numeroDaConta = TextEditingController();
+  final ContatoDao _dao = ContatoDao();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class _FormularioContatoState extends State<FormularioContato> {
                       final int numeroConta = int.tryParse(_numeroDaConta.text);
                       final Contato novoContato = Contato(0, nome, numeroConta);
                       if (numeroConta != null && nome != null) {
-                       save(novoContato).then((id) => Navigator.pop(context));
+                       _dao.save(novoContato).then((id) => Navigator.pop(context));
                       }
                     },
                   ),
