@@ -6,12 +6,12 @@ import '../app_database.dart';
 class ContatoDao {
 
   
-  static final String tableSql ='CREATE TABLE $_tableName('
-      '$_id INTEGER PRIMARY KEY, '
-      '$_nome TEXT, '
-      '$_numeroConta INTEGER)';
+  static final String tableSql ='CREATE TABLE contatos('
+      'id INTEGER PRIMARY KEY, '
+      'nome TEXT, '
+      'numeroConta INTEGER)';
 
-  static const String _tableName = 'contato';
+  static const String _tableName = 'contatos';
   static const String _id = 'id';
   static const String _nome = 'nome';
   static const String _numeroConta = 'numeroConta';

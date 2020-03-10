@@ -56,7 +56,7 @@ class _FormularioContatoState extends State<FormularioContato> {
                       final int numeroConta = int.tryParse(_numeroDaConta.text);
                       final Contato novoContato = Contato(0, nome, numeroConta);
                       if (numeroConta != null && nome != null) {
-                       _dao.save(novoContato).then((id) => Navigator.pop(context));
+                        _dao.save(novoContato).then((id) => Navigator.pop(context));
                       }
                     },
                   ),

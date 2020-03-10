@@ -4,8 +4,12 @@ import 'package:banco/screens/formulario_contato.dart';
 import 'package:flutter/material.dart';
 
 
+class ListaContato extends StatefulWidget {
+  @override
+  _ListaContatoState createState() => _ListaContatoState();
+}
 
- class ListaContatato extends StatelessWidget {
+class _ListaContatoState extends State<ListaContato> {
 
   final ContatoDao _dao = ContatoDao();
 
@@ -38,28 +42,29 @@ import 'package:flutter/material.dart';
               case ConnectionState.active:
                 break;
               case ConnectionState.done:
-                final List<Contato> contatos = snapshot.data;
-
-                return ListView.builder(
-                  itemBuilder: (context, index) {
-                    final Contato contato = contatos[index];
-
-                    return _ContatoItem(contato);
-                  },
+                 final List<Contato> contatos = snapshot.data;
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  final Contato contato = contatos[index];
+                  return _ContatoItem(contato);
+                },
                   itemCount: contatos.length,
-                );
-                break;
-            }
-
-            return Text('Ocorreu um Erro');
-          }),
-        floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
+              );
+              break;
+          }
+          return Text('Unknown error');
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async{
+          await Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => FormularioContato(),
             ),
           );
+          setState(() {
+
+          }); 
         },
         child: Icon(
           Icons.add,
