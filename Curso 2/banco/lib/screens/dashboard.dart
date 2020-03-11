@@ -16,13 +16,35 @@ class Dashboard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Image.asset('images/banco_logo.png'),
           ),
-          Row(
-            children: <Widget>[
-              _FeatureItem('Transferencia', Icons.monetization_on,),
-              _FeatureItem('Fed', Icons.description,),
-            ],
+          Container(
+            height: 90,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                _FeatureItem(
+                  'Transferencia',
+                  Icons.monetization_on,
+                  onClick: () {
+                    _showListaContato(context);
+                  },
+                ),
+                _FeatureItem(
+                  'Fed',
+                  Icons.description,
+                  onClick: () {},
+                ),
+              ],
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showListaContato(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ListaContato(),
       ),
     );
   }
@@ -31,8 +53,9 @@ class Dashboard extends StatelessWidget {
 class _FeatureItem extends StatelessWidget {
   final String nome;
   final IconData icon;
+  final Function onClick;
 
-  const _FeatureItem(this.nome, this.icon);
+  _FeatureItem(this.nome, this.icon, {@required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +64,10 @@ class _FeatureItem extends StatelessWidget {
       child: Material(
         color: Theme.of(context).primaryColor,
         child: InkWell(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ListaContato(),
-              ),
-            );
-          },
+          onTap: () => onClick(),
           child: Container(
             padding: EdgeInsets.all(8.0),
-            height: 70,
+            height: 50,
             width: 100,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
