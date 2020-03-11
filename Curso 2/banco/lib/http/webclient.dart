@@ -13,7 +13,6 @@ class LoginInterceptor implements InterceptorContract {
 
   @override
   Future<ResponseData> interceptResponse({ResponseData data}) async {
-    print('body ${data.body}');
     return data;
   }
 }
@@ -27,13 +26,13 @@ Future<List<Transacao>> findAll() async {
   final List<dynamic> decodeJson = jsonDecode(response.body);
   final List<Transacao> transacaos = List();
   for (Map<String, dynamic> transacaoJson in decodeJson) {
-    final Map<String, dynamic> contatoJson = transacaoJson['contato'];
+    final Map<String, dynamic> contatoJson = transacaoJson['contact'];
     final Transacao transacao = Transacao(
       transacaoJson['value'],
       Contato(
         0,
-        contatoJson['contato']['nome'],
-        contatoJson['contato']['numeroConta'],
+        contatoJson['name'],
+        contatoJson['accountNumber'],
       ),
     );
     transacaos.add(transacao);
