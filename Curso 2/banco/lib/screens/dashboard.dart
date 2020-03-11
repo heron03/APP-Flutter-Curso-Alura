@@ -1,3 +1,4 @@
+import 'package:banco/screens/lista_transacao.dart';
 import 'package:flutter/material.dart';
 import 'package:banco/screens/lista_contato.dart';
 
@@ -24,14 +25,12 @@ class Dashboard extends StatelessWidget {
                 _FeatureItem(
                   'Transferencia',
                   Icons.monetization_on,
-                  onClick: () {
-                    _showListaContato(context);
-                  },
+                  onClick: () => _showListaContato(context),
                 ),
                 _FeatureItem(
                   'Fed',
                   Icons.description,
-                  onClick: () {},
+                  onClick: () => _showListaTransacao(context),
                 ),
               ],
             ),
@@ -45,6 +44,14 @@ class Dashboard extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ListaContato(),
+      ),
+    );
+  }
+
+  void _showListaTransacao(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ListaTransacao(),
       ),
     );
   }
