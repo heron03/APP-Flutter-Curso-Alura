@@ -4,7 +4,7 @@ import 'package:banco/screens/dashboard.dart';
 
 void main() {
   runApp(Banco());
-    findAll();
+    findAll().then((transacaos) => print('nova $transacaos'));
 }
 
 class Banco extends StatelessWidget {
