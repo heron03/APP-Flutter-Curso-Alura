@@ -22,7 +22,7 @@ Future<List<Transacao>> findAll() async {
     interceptors: [LoginInterceptor()],
   );
   final Response response =
-      await client.get('http://10.0.0.103:8080/transactions');
+      await client.get('http://10.0.0.103:8080/transactions').timeout(Duration(seconds: 5));
   final List<dynamic> decodeJson = jsonDecode(response.body);
   final List<Transacao> transacaos = List();
   for (Map<String, dynamic> transacaoJson in decodeJson) {

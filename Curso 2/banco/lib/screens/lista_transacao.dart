@@ -1,4 +1,5 @@
 import 'package:banco/components/Progress.dart';
+import 'package:banco/components/centered_message.dart';
 import 'package:banco/http/webclient.dart';
 import 'package:banco/models/contato.dart';
 import 'package:flutter/material.dart';
@@ -22,30 +23,43 @@ class ListaTransacao extends StatelessWidget {
             case ConnectionState.active:
               break;
             case ConnectionState.done:
-              final List<Transacao> transacaos = snapshot.data;
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final Transacao transacao = transacaos[index];
-                  return Card(
-                    child: ListTile(
-                      leading: Icon(Icons.monetization_on),
-                      title: Text(
-                        transacao.value.toString(),
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
+              if (snapshot.hasData) {
+                final List<Transacao> transacaos = snapshot.data;
+                if (transacaos.isNotEmpty) {
+                  return ListView.builder(
+                    itemBuilder: (context, index) {
+                      final Transacao transacao = transacaos[index];
+                      return Card(
+                        child: ListTile(
+                          leading: Icon(Icons.monetization_on),
+                          title: Text(
+                            transacao.value.toString(),
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            transacao.contato.numeroConta.toString(),
+                            style: TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          ),
                         ),
-                      ),
-                      subtitle: Text(
-                        transacao.contato.numeroConta.toString(),
-                        style: TextStyle(
-                          fontSize: 16.0,
-                        ),
-                      ),
-                    ),
+                      );
+                    },
+                    itemCount: transacaos.length,
                   );
-                },
-                itemCount: transacaos.length,
+                }
+                return CenteredMessage(
+                  'Nenhuma transação Feita',
+                  icon: Icons.warning,
+                );
+              }
+
+              return CenteredMessage(
+                'Serviço indisponivel',
+                icon: Icons.warning,
               );
               break;
           }
