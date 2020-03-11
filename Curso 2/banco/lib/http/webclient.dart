@@ -27,12 +27,14 @@ Future<List<Transacao>> findAll() async {
   final List<Transacao> transacaos = List();
   for (Map<String, dynamic> transacaoJson in decodeJson) {
     final Map<String, dynamic> contatoJson = transacaoJson['contact'];
+    contatoJson['nome'] = contatoJson['name'];
+    contatoJson['numeroConta'] =  contatoJson['accountNumber'];
     final Transacao transacao = Transacao(
       transacaoJson['value'],
       Contato(
         0,
-        contatoJson['name'],
-        contatoJson['accountNumber'],
+        contatoJson['nome'],
+        contatoJson['numeroConta'],
       ),
     );
     transacaos.add(transacao);
