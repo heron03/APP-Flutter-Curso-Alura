@@ -1,3 +1,4 @@
+import 'package:banco/components/Progress.dart';
 import 'package:banco/database/dao/contato_dao.dart';
 import 'package:banco/models/contato.dart';
 import 'package:banco/screens/formulario_contato.dart';
@@ -28,16 +29,7 @@ class _ListaContatoState extends State<ListaContato> {
               case ConnectionState.none:
                 break;
               case ConnectionState.waiting:
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      CircularProgressIndicator(),
-                      Text('Aguarde'),
-                    ],
-                  ),
-                );
+                return Progress();
                 break;
               case ConnectionState.active:
                 break;
