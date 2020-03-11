@@ -1,7 +1,7 @@
 import 'package:banco/components/Progress.dart';
 import 'package:banco/components/centered_message.dart';
 import 'package:banco/http/webclient.dart';
-import 'package:banco/models/contato.dart';
+import 'package:banco/models/transacao.dart';
 import 'package:flutter/material.dart';
 
 class ListaTransacao extends StatelessWidget {
@@ -67,20 +67,5 @@ class ListaTransacao extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-class Transacao {
-  final double value;
-  final Contato contato;
-
-  Transacao(
-    this.value,
-    this.contato,
-  );
-
-  @override
-  String toString() {
-    return 'Transacao{value: $value, contato: $contato}';
   }
 }
