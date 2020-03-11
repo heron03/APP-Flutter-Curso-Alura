@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:banco/models/contato.dart';
-import 'package:banco/screens/lista_transacao.dart';
+import 'package:banco/models/transacao.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 
