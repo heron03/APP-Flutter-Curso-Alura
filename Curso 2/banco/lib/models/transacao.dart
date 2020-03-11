@@ -1,4 +1,3 @@
-
 import 'package:banco/models/contato.dart';
 
 class Transacao {
@@ -9,6 +8,15 @@ class Transacao {
     this.value,
     this.contato,
   );
+
+  Transacao.fromJson(Map<String, dynamic> json)
+      : value = json['value'],
+        contato = Contato.fromJson(json['contact']);
+  
+  Map<String, dynamic> toJson() => {
+        'value': value,
+        'contact': contato.toJson(),
+      };
 
   @override
   String toString() {
