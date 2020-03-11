@@ -1,4 +1,4 @@
-import 'package:banco/http/webclient.dart';
+import 'package:banco/http/webclient/transacao_webclient.dart';
 import 'package:flutter/material.dart';
 import 'package:banco/models/contato.dart';
 import 'package:banco/models/transacao.dart';
@@ -14,6 +14,7 @@ class FormularioTransacao extends StatefulWidget {
 
 class _FormularioTransacaoState extends State<FormularioTransacao> {
   final TextEditingController _valueController = TextEditingController();
+  final TransactionWebClient _webClient = TransactionWebClient();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
                     child: Text('Transferencia'), onPressed: () {
                       final double value = double.tryParse(_valueController.text);
                       final transacaoCreated = Transacao(value, widget.contato);
-                      save(transacaoCreated).then((transacao) {
+                      _webClient.save(transacaoCreated).then((transacao) {
                        if(transacao != null){
                          Navigator.pop(context);
                        }
