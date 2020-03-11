@@ -1,8 +1,10 @@
+import 'package:banco/http/webclient.dart';
 import 'package:flutter/material.dart';
 import 'package:banco/screens/dashboard.dart';
 
 void main() {
   runApp(Banco());
+    findAll();
 }
 
 class Banco extends StatelessWidget {
