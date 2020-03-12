@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:banco/components/response_dialog.dart';
 import 'package:banco/components/transacao_auth_dialog.dart';
 import 'package:banco/http/webclient/transacao_webclient.dart';
@@ -90,13 +92,25 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
   void _save(
       Transacao transacaoCreated, String senha, BuildContext context) async {
     final Transacao transacao =
-        await _webClient.save(transacaoCreated, senha).catchError((e) {
-      showDialog(
-          context: context,
-          builder: (contextDialog) {
-            return FailureDialog(e.message);
-          });
-    }, test: (e) => e is Exception);
+        await _webClient.save(transacaoCreated, senha).catchError(
+      (e) {
+        showDialog(
+            context: context,
+            builder: (contextDialog) {
+              return FailureDialog('Tempo de salvamento ultrapassado');
+            });
+      },
+      test: (e) => e is TimeoutException,
+    ).catchError(
+      (e) {
+        showDialog(
+            context: context,
+            builder: (contextDialog) {
+              return FailureDialog(e.message);
+            });
+      },
+      test: (e) => e is HttpException,
+    );
 
     await _showSucces(transacao, context);
   }
