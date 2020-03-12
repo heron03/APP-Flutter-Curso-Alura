@@ -1,8 +1,10 @@
+import 'package:banco/components/response_dialog.dart';
 import 'package:banco/components/transacao_auth_dialog.dart';
 import 'package:banco/http/webclient/transacao_webclient.dart';
 import 'package:flutter/material.dart';
 import 'package:banco/models/contato.dart';
 import 'package:banco/models/transacao.dart';
+import 'package:path/path.dart';
 
 class FormularioTransacao extends StatefulWidget {
   final Contato contato;
@@ -89,8 +91,18 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
       Transacao transacaoCreated, String senha, BuildContext context) async {
     _webClient.save(transacaoCreated, senha).then((transacao) {
       if (transacao != null) {
-        Navigator.pop(context);
+        showDialog(
+            context: context,
+            builder: (contextDialog) {
+              return SuccessDialog('Sucesso na Transação');
+            }).then((value) => Navigator.pop(context));
       }
-    });
+    }).catchError((e) {
+      showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return FailureDialog(e.message);
+          });
+    }, test: (e) => e is Exception);
   }
 }
