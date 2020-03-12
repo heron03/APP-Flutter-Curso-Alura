@@ -1,3 +1,4 @@
+import 'package:banco/components/transacao_auth_dialog.dart';
 import 'package:banco/http/webclient/transacao_webclient.dart';
 import 'package:flutter/material.dart';
 import 'package:banco/models/contato.dart';
@@ -5,7 +6,7 @@ import 'package:banco/models/transacao.dart';
 
 class FormularioTransacao extends StatefulWidget {
   final Contato contato;
-  
+
   FormularioTransacao(this.contato);
 
   @override
@@ -58,15 +59,26 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
                 child: SizedBox(
                   width: double.maxFinite,
                   child: RaisedButton(
-                    child: Text('Transferencia'), onPressed: () {
-                      final double value = double.tryParse(_valueController.text);
+                    child: Text('Transferencia'),
+                    onPressed: () {
+                      final double value =
+                          double.tryParse(_valueController.text);
                       final transacaoCreated = Transacao(value, widget.contato);
-                      _webClient.save(transacaoCreated).then((transacao) {
-                       if(transacao != null){
-                         Navigator.pop(context);
-                       }
-                      });
-                  },
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return TransacaoAuthDialog(
+                            onConfirm: (String senha) {
+                              _webClient
+                                  .save(transacaoCreated, senha)
+                                  .then((transacao) {
+                                  Navigator.pop(context);
+                              });
+                            },
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
               )

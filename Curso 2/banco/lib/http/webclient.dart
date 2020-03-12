@@ -8,4 +8,4 @@ final Client client = HttpClientWithInterceptor.build(
   interceptors: [LoginInterceptor()],
 );
 
-const String baseUrl = 'http://10.0.0.103:8080/transactions';
+const String baseUrl = 'http://10.0.0.104:8080/transactions';
