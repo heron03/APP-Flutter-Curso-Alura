@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:banco/components/Progress.dart';
 import 'package:banco/components/response_dialog.dart';
 import 'package:banco/components/transacao_auth_dialog.dart';
 import 'package:banco/http/webclient/transacao_webclient.dart';
@@ -34,6 +35,7 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Progress(),
               Text(
                 widget.contato.nome,
                 style: TextStyle(
