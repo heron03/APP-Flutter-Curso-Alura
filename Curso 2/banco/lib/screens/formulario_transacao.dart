@@ -22,6 +22,7 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
   final String transacaoId = Uuid().v4();
   final TextEditingController _valueController = TextEditingController();
   final TransactionWebClient _webClient = TransactionWebClient();
+  bool _sending = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,14 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Progress(),
+               Visibility(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Progress(
+                  ),
+                ),
+                visible: _sending,
+              ),
               Text(
                 widget.contato.nome,
                 style: TextStyle(
@@ -98,8 +106,13 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
 
   void _save(
       Transacao transacaoCreated, String senha, BuildContext context) async {
+    setState(() {
+      _sending = true;
+    });
     Transacao transacao = await _envio(transacaoCreated, senha, context);
-
+    setState(() {
+      _sending = false;
+    });
     _showSuccesMenssage(transacao, context);
   }
 
@@ -119,7 +132,12 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
       test: (e) => e is HttpException,
     ).catchError((e) {
       _showFailureMenssager(context);
+    }).whenComplete(() {
+      setState(() {
+        _sending = false;
+      });
     });
+
     return transacao;
   }
 
