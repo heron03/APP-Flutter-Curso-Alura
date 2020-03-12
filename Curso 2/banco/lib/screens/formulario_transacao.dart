@@ -6,7 +6,6 @@ import 'package:banco/http/webclient/transacao_webclient.dart';
 import 'package:flutter/material.dart';
 import 'package:banco/models/contato.dart';
 import 'package:banco/models/transacao.dart';
-import 'package:path/path.dart';
 
 class FormularioTransacao extends StatefulWidget {
   final Contato contato;
@@ -91,31 +90,41 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
 
   void _save(
       Transacao transacaoCreated, String senha, BuildContext context) async {
+    Transacao transacao = await _envio(transacaoCreated, senha, context);
+
+    _showSuccesMenssage(transacao, context);
+  }
+
+  Future<Transacao> _envio(
+      Transacao transacaoCreated, String senha, BuildContext context) async {
     final Transacao transacao =
         await _webClient.save(transacaoCreated, senha).catchError(
       (e) {
-        showDialog(
-            context: context,
-            builder: (contextDialog) {
-              return FailureDialog('Tempo de salvamento ultrapassado');
-            });
+        _showFailureMenssager(context,
+            mensagem: 'Tempo de salvamento ultrapassado');
       },
       test: (e) => e is TimeoutException,
     ).catchError(
       (e) {
-        showDialog(
-            context: context,
-            builder: (contextDialog) {
-              return FailureDialog(e.message);
-            });
+        _showFailureMenssager(context, mensagem: e.message);
       },
       test: (e) => e is HttpException,
-    );
-
-    await _showSucces(transacao, context);
+    ).catchError((e) {
+      _showFailureMenssager(context);
+    });
+    return transacao;
   }
 
-  Future _showSucces(Transacao transacao, BuildContext context) async {
+  void _showFailureMenssager(BuildContext context,
+      {String mensagem = 'Erro desconhecido'}) {
+    showDialog(
+        context: context,
+        builder: (contextDialog) {
+          return FailureDialog(mensagem);
+        });
+  }
+
+  Future _showSuccesMenssage(Transacao transacao, BuildContext context) async {
     if (transacao != null) {
       await showDialog(
           context: context,
