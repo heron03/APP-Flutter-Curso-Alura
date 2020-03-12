@@ -25,12 +25,20 @@ class TransactionWebClient {
       return Transacao.fromJson(jsonDecode(response.body));
     }
 
-    throw HttpException(_statusCodeResponses[response.statusCode]);
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
+  String _getMessage(int statusCode) {
+    if (_statusCodeResponses.containsKey(statusCode)) {
+      return _statusCodeResponses[statusCode];
+    }
+    return 'Erro Desconehcido';
   }
 
   static final Map<int, String> _statusCodeResponses = {
     400: 'Não informado o valor da transação',
     401: 'Senha Invalida',
+    409: 'Transação já Realizada',
   };
 }
 

@@ -6,6 +6,7 @@ import 'package:banco/http/webclient/transacao_webclient.dart';
 import 'package:flutter/material.dart';
 import 'package:banco/models/contato.dart';
 import 'package:banco/models/transacao.dart';
+import 'package:uuid/uuid.dart';
 
 class FormularioTransacao extends StatefulWidget {
   final Contato contato;
@@ -17,6 +18,7 @@ class FormularioTransacao extends StatefulWidget {
 }
 
 class _FormularioTransacaoState extends State<FormularioTransacao> {
+  final String transacaoId = Uuid().v4();
   final TextEditingController _valueController = TextEditingController();
   final TransactionWebClient _webClient = TransactionWebClient();
 
@@ -66,7 +68,11 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
                     onPressed: () {
                       final double value =
                           double.tryParse(_valueController.text);
-                      final transacaoCreated = Transacao(value, widget.contato);
+                      final transacaoCreated = Transacao(
+                        transacaoId,
+                        value,
+                        widget.contato,
+                      );
                       showDialog(
                         context: context,
                         builder: (contextDialog) {
