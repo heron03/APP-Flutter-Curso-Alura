@@ -22,15 +22,18 @@ class TransactionWebClient {
         },
         body: transacaoJson);
 
-    if (response.statusCode == 400) {
-      throw Exception('Não informado o valor da transação');
+    if (response.statusCode == 200) {
+      return Transacao.fromJson(jsonDecode(response.body));
     }
 
-    
-    if (response.statusCode == 401) {
-      throw Exception('Senha Invalida');
-    }
-
-    return Transacao.fromJson(jsonDecode(response.body));
+    _throwHttpError(response.statusCode);
   }
+
+  void _throwHttpError(int statusCode) =>
+      throw Exception(_statusCodeResponses[statusCode]);
+
+  static final Map<int, String> _statusCodeResponses = {
+    400: 'Não informado o valor da transação',
+    401: 'Senha Invalida',
+  };
 }

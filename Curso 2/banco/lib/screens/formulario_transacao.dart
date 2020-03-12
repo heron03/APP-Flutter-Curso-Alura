@@ -89,20 +89,26 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
 
   void _save(
       Transacao transacaoCreated, String senha, BuildContext context) async {
-    _webClient.save(transacaoCreated, senha).then((transacao) {
-      if (transacao != null) {
-        showDialog(
-            context: context,
-            builder: (contextDialog) {
-              return SuccessDialog('Sucesso na Transação');
-            }).then((value) => Navigator.pop(context));
-      }
-    }).catchError((e) {
+    final Transacao transacao =
+        await _webClient.save(transacaoCreated, senha).catchError((e) {
       showDialog(
           context: context,
           builder: (contextDialog) {
             return FailureDialog(e.message);
           });
     }, test: (e) => e is Exception);
+
+    await _showSucces(transacao, context);
+  }
+
+  Future _showSucces(Transacao transacao, BuildContext context) async {
+    if (transacao != null) {
+      await showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return SuccessDialog('Sucesso na Transação');
+          });
+      Navigator.pop(context);
+    }
   }
 }
