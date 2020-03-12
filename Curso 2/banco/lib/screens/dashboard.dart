@@ -14,7 +14,7 @@ class Dashboard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(6.0),
             child: Image.asset('images/banco_logo.png'),
           ),
           Container(
@@ -22,12 +22,12 @@ class Dashboard extends StatelessWidget {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                _FeatureItem(
+                FeatureItem(
                   'Transferencia',
                   Icons.monetization_on,
                   onClick: () => _showListaContato(context),
                 ),
-                _FeatureItem(
+                FeatureItem(
                   'Fed',
                   Icons.description,
                   onClick: () => _showListaTransacao(context),
@@ -57,12 +57,12 @@ class Dashboard extends StatelessWidget {
   }
 }
 
-class _FeatureItem extends StatelessWidget {
+class FeatureItem extends StatelessWidget {
   final String nome;
   final IconData icon;
   final Function onClick;
 
-  _FeatureItem(this.nome, this.icon, {@required this.onClick});
+  FeatureItem(this.nome, this.icon, {@required this.onClick});
 
   @override
   Widget build(BuildContext context) {
