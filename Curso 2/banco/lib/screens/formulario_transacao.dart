@@ -66,14 +66,10 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
                       final transacaoCreated = Transacao(value, widget.contato);
                       showDialog(
                         context: context,
-                        builder: (context) {
+                        builder: (contextDialog) {
                           return TransacaoAuthDialog(
                             onConfirm: (String senha) {
-                              _webClient
-                                  .save(transacaoCreated, senha)
-                                  .then((transacao) {
-                                  Navigator.pop(context);
-                              });
+                              _save(transacaoCreated, senha, context);
                             },
                           );
                         },
@@ -87,5 +83,14 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
         ),
       ),
     );
+  }
+
+  void _save(
+      Transacao transacaoCreated, String senha, BuildContext context) async {
+    _webClient.save(transacaoCreated, senha).then((transacao) {
+      if (transacao != null) {
+        Navigator.pop(context);
+      }
+    });
   }
 }
