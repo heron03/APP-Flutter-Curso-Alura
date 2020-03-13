@@ -1,6 +1,7 @@
 import 'package:banco/screens/lista_transacao.dart';
 import 'package:flutter/material.dart';
 import 'package:banco/screens/lista_contato.dart';
+import 'package:flutter/rendering.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -9,33 +10,40 @@ class Dashboard extends StatelessWidget {
       appBar: AppBar(
         title: Text('Inicio'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset('images/banco_logo.png'),
-          ),
-          Container(
-            height: 90,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
+      body: LayoutBuilder(
+        builder: (context, constaints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constaints.maxHeight),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _FeatureItem(
-                  'Transferencia',
-                  Icons.monetization_on,
-                  onClick: () => _showListaContato(context),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset('images/banco_logo.png'),
                 ),
-                _FeatureItem(
-                  'Fed',
-                  Icons.description,
-                  onClick: () => _showListaTransacao(context),
+                Container(
+                  height: 90,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      FeatureItem(
+                        'Transferencia',
+                        Icons.monetization_on,
+                        onClick: () => _showListaContato(context),
+                      ),
+                      FeatureItem(
+                        'Feed',
+                        Icons.description,
+                        onClick: () => _showListaTransacao(context),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -57,12 +65,12 @@ class Dashboard extends StatelessWidget {
   }
 }
 
-class _FeatureItem extends StatelessWidget {
+class FeatureItem extends StatelessWidget {
   final String nome;
   final IconData icon;
   final Function onClick;
 
-  _FeatureItem(this.nome, this.icon, {@required this.onClick});
+  FeatureItem(this.nome, this.icon, {@required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +82,7 @@ class _FeatureItem extends StatelessWidget {
           onTap: () => onClick(),
           child: Container(
             padding: EdgeInsets.all(8.0),
-            height: 50,
-            width: 100,
+            width: 150,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
