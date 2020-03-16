@@ -1,4 +1,3 @@
-
 import 'package:banco/components/Progress.dart';
 import 'package:banco/database/dao/contato_dao.dart';
 import 'package:banco/models/contato.dart';
@@ -7,7 +6,8 @@ import 'package:banco/screens/formulario_transacao.dart';
 import 'package:flutter/material.dart';
 
 class ListaContato extends StatelessWidget {
-  final ContatoDao _dao = ContatoDao();
+  final ContatoDao contatoDao;
+  ListaContato({@required this.contatoDao});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class ListaContato extends StatelessWidget {
       ),
       body: FutureBuilder<List<Contato>>(
         initialData: List(),
-        future: _dao.findAll(),
+        future: contatoDao.findAll(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:

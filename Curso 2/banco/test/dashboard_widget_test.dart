@@ -2,6 +2,8 @@ import 'package:banco/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'matchers.dart';
+
 void main() {
   testWidgets('Imagem ser mostrada Dashboard for aberto',
       (WidgetTester tester) async {
@@ -22,9 +24,3 @@ void main() {
   });
 }
 
-bool fetureItemMatcher(Widget widget, String nome, IconData icon) {
-  if (widget is FeatureItem) {
-    return widget.nome == nome && widget.icon == icon;
-  }
-  return false;
-}

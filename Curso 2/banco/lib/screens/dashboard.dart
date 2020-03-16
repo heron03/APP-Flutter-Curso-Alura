@@ -1,9 +1,12 @@
+import 'package:banco/database/dao/contato_dao.dart';
 import 'package:banco/screens/lista_transacao.dart';
 import 'package:flutter/material.dart';
 import 'package:banco/screens/lista_contato.dart';
 import 'package:flutter/rendering.dart';
 
 class Dashboard extends StatelessWidget {
+  final ContatoDao contatoDao;
+  Dashboard({@required this.contatoDao});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +54,9 @@ class Dashboard extends StatelessWidget {
   void _showListaContato(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ListaContato(),
+        builder: (context) => ListaContato(
+          contatoDao: contatoDao,
+        ),
       ),
     );
   }
