@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import 'matchers.dart';
-import 'mocks.dart';
+import '../mocks/mocks.dart';
+import 'actions.dart';
 
 void main() {
   testWidgets('Salvar Contato', (tester) async {
@@ -20,10 +20,8 @@ void main() {
     final dashboard = find.byType(Dashboard);
     expect(dashboard, findsOneWidget);
 
-    final transferenciaFeatureItem = find.byWidgetPredicate((widget) =>
-        fetureItemMatcher(widget, 'Transferencia', Icons.monetization_on));
-    expect(transferenciaFeatureItem, findsOneWidget);
-    await tester.tap(transferenciaFeatureItem);
+
+    await clickOnTheTransfertenciaFetureItem(tester);
     await tester.pumpAndSettle();
 
     final listaContato = find.byType(ListaContato);

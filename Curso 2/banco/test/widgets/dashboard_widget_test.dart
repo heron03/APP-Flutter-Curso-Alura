@@ -2,7 +2,8 @@ import 'package:banco/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'matchers.dart';
+import '../matchers/matchers.dart';
+
 
 void main() {
   testWidgets('Imagem ser mostrada Dashboard for aberto',
