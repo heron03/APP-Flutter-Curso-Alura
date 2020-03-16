@@ -24,8 +24,8 @@ void main() {
     await tester.tap(transferenciaFeatureItem);
     await tester.pumpAndSettle();
 
-    final contactsList = find.byType(ListaContato);
-    expect(contactsList, findsOneWidget);
+    final listaContato = find.byType(ListaContato);
+    expect(listaContato, findsOneWidget);
 
     final fabNovoContato = find.widgetWithIcon(FloatingActionButton, Icons.add);
     expect(fabNovoContato, findsOneWidget);
@@ -34,5 +34,31 @@ void main() {
 
     final contatoFormulario = find.byType(FormularioContato);
     expect(contatoFormulario, findsOneWidget);
+
+    final nomeTextField = find.byWidgetPredicate((widget) {
+      if (widget is TextField) {
+        return widget.decoration.labelText == 'Nome Completo';
+      }
+      return false;
+    });
+    expect(nomeTextField, findsOneWidget);
+    await tester.enterText(nomeTextField, 'Heron');
+
+    final numeroContaTextField = find.byWidgetPredicate((widget) {
+      if (widget is TextField) {
+        return widget.decoration.labelText == 'Número da Conta';
+      }
+      return false;
+    });
+    expect(numeroContaTextField, findsOneWidget);
+    await tester.enterText(nomeTextField, '1000');
+
+    final createButton = find.widgetWithText(RaisedButton, 'Novo');
+    expect(createButton, findsOneWidget);
+    await tester.tap(createButton);
+    await tester.pumpAndSettle();
+
+    final listaContatoBack = find.byType(ListaContato);
+    expect(listaContatoBack, findsOneWidget);
   });
 }

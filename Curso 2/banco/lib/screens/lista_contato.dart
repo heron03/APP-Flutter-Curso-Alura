@@ -54,7 +54,7 @@ class ListaContato extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => FormularioContato(),
+              builder: (context) => FormularioContato(contatoDao: contatoDao),
             ),
           );
         },

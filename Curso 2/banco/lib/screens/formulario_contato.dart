@@ -3,15 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:banco/database/dao/contato_dao.dart';
 
 class FormularioContato extends StatefulWidget {
+  final ContatoDao contatoDao;
+
+  FormularioContato({@required this.contatoDao});
+
   @override
-  _FormularioContatoState createState() => _FormularioContatoState();
+  _FormularioContatoState createState() =>
+      _FormularioContatoState(contatoDao: contatoDao);
 }
 
 class _FormularioContatoState extends State<FormularioContato> {
   final TextEditingController _nomeCompleto = TextEditingController();
   final TextEditingController _numeroDaConta = TextEditingController();
-  final ContatoDao _dao = ContatoDao();
-
+  final ContatoDao contatoDao;
+  _FormularioContatoState({@required this.contatoDao});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,13 +55,13 @@ class _FormularioContatoState extends State<FormularioContato> {
                 child: SizedBox(
                   width: double.maxFinite,
                   child: RaisedButton(
-                    child: Text("Novo"),
+                    child: Text('Novo'),
                     onPressed: () {
                       final String nome = _nomeCompleto.text;
                       final int numeroConta = int.tryParse(_numeroDaConta.text);
                       final Contato novoContato = Contato(0, nome, numeroConta);
                       if (numeroConta != null && nome != null) {
-                        _dao.save(novoContato).then((id) => Navigator.pop(context));
+                        _save(novoContato, context);
                       }
                     },
                   ),
@@ -67,5 +72,9 @@ class _FormularioContatoState extends State<FormularioContato> {
         ),
       ),
     );
+  }
+
+  void _save(Contato novoContato, BuildContext context) async {
+    await contatoDao.save(novoContato).then((id) => Navigator.pop(context));
   }
 }
