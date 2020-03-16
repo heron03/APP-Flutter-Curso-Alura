@@ -5,10 +5,15 @@ import 'package:banco/screens/formulario_contato.dart';
 import 'package:banco/screens/formulario_transacao.dart';
 import 'package:flutter/material.dart';
 
-class ListaContato extends StatelessWidget {
+class ListaContato extends StatefulWidget {
   final ContatoDao contatoDao;
   ListaContato({@required this.contatoDao});
 
+  @override
+  _ListaContatoState createState() => _ListaContatoState();
+}
+
+class _ListaContatoState extends State<ListaContato> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +22,7 @@ class ListaContato extends StatelessWidget {
       ),
       body: FutureBuilder<List<Contato>>(
         initialData: List(),
-        future: contatoDao.findAll(),
+        future: widget.contatoDao.findAll(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -54,7 +59,7 @@ class ListaContato extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => FormularioContato(contatoDao: contatoDao),
+              builder: (context) => FormularioContato(contatoDao: widget.contatoDao),
             ),
           );
         },
