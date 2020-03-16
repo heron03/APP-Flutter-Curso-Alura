@@ -1,14 +1,11 @@
 import 'package:banco/components/Progress.dart';
-import 'package:banco/database/dao/contato_dao.dart';
 import 'package:banco/models/contato.dart';
 import 'package:banco/screens/formulario_contato.dart';
 import 'package:banco/screens/formulario_transacao.dart';
+import 'package:banco/widgets/main.dart';
 import 'package:flutter/material.dart';
 
 class ListaContato extends StatefulWidget {
-  final ContatoDao contatoDao;
-  ListaContato({@required this.contatoDao});
-
   @override
   _ListaContatoState createState() => _ListaContatoState();
 }
@@ -16,13 +13,14 @@ class ListaContato extends StatefulWidget {
 class _ListaContatoState extends State<ListaContato> {
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependecies.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Transfer'),
+        title: Text('Transferencia'),
       ),
       body: FutureBuilder<List<Contato>>(
         initialData: List(),
-        future: widget.contatoDao.findAll(),
+        future: dependencies.contatoDao.findAll(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -59,7 +57,7 @@ class _ListaContatoState extends State<ListaContato> {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => FormularioContato(contatoDao: widget.contatoDao),
+              builder: (context) => FormularioContato(),
             ),
           );
         },

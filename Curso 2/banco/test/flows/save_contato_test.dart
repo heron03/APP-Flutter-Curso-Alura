@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
+import '../matchers/matchers.dart';
 import '../mocks/mocks.dart';
 import 'actions.dart';
 
@@ -14,7 +15,7 @@ void main() {
   testWidgets('Salvar Contato', (tester) async {
     final mockContatoDao = MockContatoDao();
     await tester.pumpWidget(Banco(
-      contatoDao: mockContatoDao,
+      contatoDao: mockContatoDao, transactionWebClient: null,
     ));
 
     final dashboard = find.byType(Dashboard);
@@ -38,27 +39,27 @@ void main() {
     expect(contatoFormulario, findsOneWidget);
 
     final nomeTextField = find.byWidgetPredicate(
-        (widget) => _textFieldMatcher(widget, 'Nome Completo'));
+        (widget) => textFieldMatcher(widget, 'Nome Completo'));
     expect(nomeTextField, findsOneWidget);
     await tester.enterText(nomeTextField, 'Heron');
 
     final numeroContaTextField = find.byWidgetPredicate(
-        (widget) => _textFieldMatcher(widget, 'Número da Conta'));
+        (widget) => textFieldMatcher(widget, 'Número da Conta'));
     expect(numeroContaTextField, findsOneWidget);
     await tester.enterText(nomeTextField, '1000');
 
-    final createButton = find.widgetWithText(RaisedButton, 'Novo');
+    final createButton =  find.widgetWithText(RaisedButton, 'Novo');
     expect(createButton, findsOneWidget);
     await tester.tap(createButton);
     await tester.pumpAndSettle();
+    await tester.pump();
 
     verifyNever(mockContatoDao.save(Contato(0, 'Heron', 1000)));
+
+    final listaContatoBack = find.byType(ListaContato);
+    expect(listaContatoBack, findsNothing);
+
+    verifyNever(mockContatoDao.findAll());
   });
 }
 
-bool _textFieldMatcher(Widget widget, String labelText) {
-  if (widget is TextField) {
-    return widget.decoration.labelText == labelText;
-  }
-  return false;
-}

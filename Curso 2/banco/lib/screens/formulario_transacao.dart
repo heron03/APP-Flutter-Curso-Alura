@@ -4,6 +4,7 @@ import 'package:banco/components/Progress.dart';
 import 'package:banco/components/response_dialog.dart';
 import 'package:banco/components/transacao_auth_dialog.dart';
 import 'package:banco/http/webclient/transacao_webclient.dart';
+import 'package:banco/widgets/main.dart';
 import 'package:flutter/material.dart';
 import 'package:banco/models/contato.dart';
 import 'package:banco/models/transacao.dart';
@@ -26,6 +27,7 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
 
   @override
   Widget build(BuildContext context) {
+    final dependecies = AppDependecies.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Nova transação'),
@@ -36,11 +38,10 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-               Visibility(
+              Visibility(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Progress(
-                  ),
+                  child: Progress(),
                 ),
                 visible: _sending,
               ),
@@ -88,7 +89,12 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
                         builder: (contextDialog) {
                           return TransacaoAuthDialog(
                             onConfirm: (String senha) {
-                              _save(transacaoCreated, senha, context);
+                              _save(
+                                dependecies.transactionWebClient,
+                                transacaoCreated,
+                                senha,
+                                context,
+                              );
                             },
                           );
                         },
@@ -104,22 +110,27 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
     );
   }
 
-  void _save(
-      Transacao transacaoCreated, String senha, BuildContext context) async {
+  void _save(TransactionWebClient webClient, Transacao transacaoCreated,
+      String senha, BuildContext context) async {
     setState(() {
       _sending = true;
     });
-    Transacao transacao = await _envio(transacaoCreated, senha, context);
+    Transacao transacao = await _envio(
+      webClient,
+      transacaoCreated,
+      senha,
+      context,
+    );
     setState(() {
       _sending = false;
     });
     _showSuccesMenssage(transacao, context);
   }
 
-  Future<Transacao> _envio(
+  Future<Transacao> _envio(TransactionWebClient webClient,
       Transacao transacaoCreated, String senha, BuildContext context) async {
     final Transacao transacao =
-        await _webClient.save(transacaoCreated, senha).catchError(
+        await webClient.save(transacaoCreated, senha).catchError(
       (e) {
         _showFailureMenssager(context,
             mensagem: 'Tempo de salvamento ultrapassado');
