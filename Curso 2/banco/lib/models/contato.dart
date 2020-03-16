@@ -9,7 +9,7 @@ class Contato {
       : id = json['id'],
         nome = json['name'],
         numeroConta = json['accountNumber'];
-        
+
   Map<String, dynamic> toJson() => {
         'name': nome,
         'accountNumber': numeroConta,
@@ -18,4 +18,15 @@ class Contato {
   String toString() {
     return 'Contato{id: $id, nome: $nome, numeroConta: $numeroConta}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Contato &&
+          runtimeType == other.runtimeType &&
+          nome == other.nome &&
+          numeroConta == other.numeroConta;
+
+  @override
+  int get hashCode => nome.hashCode ^ numeroConta.hashCode;
 }

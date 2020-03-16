@@ -75,6 +75,7 @@ class _FormularioContatoState extends State<FormularioContato> {
   }
 
   void _save(Contato novoContato, BuildContext context) async {
-    await contatoDao.save(novoContato).then((id) => Navigator.pop(context));
+    await contatoDao.save(novoContato); 
+    Navigator.pop(context);
   }
 }
