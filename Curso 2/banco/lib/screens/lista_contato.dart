@@ -37,7 +37,7 @@ class _ListaContatoState extends State<ListaContato> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final Contato contato = contatos[index];
-                  return _ContatoItem(
+                  return ContatoItem(
                     contato,
                     onClick: () {
                       Navigator.of(context).push(
@@ -71,11 +71,11 @@ class _ListaContatoState extends State<ListaContato> {
   }
 }
 
-class _ContatoItem extends StatelessWidget {
+class ContatoItem extends StatelessWidget {
   final Contato contato;
   final Function onClick;
 
-  _ContatoItem(
+  ContatoItem(
     this.contato, {
     @required this.onClick,
   });
