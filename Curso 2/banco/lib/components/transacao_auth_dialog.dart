@@ -11,6 +11,9 @@ class TransacaoAuthDialog extends StatefulWidget {
   _TransacaoAuthDialogState createState() => _TransacaoAuthDialogState();
 }
 
+const Key transacaoAuthDialogKeyTextFieldSenha =
+    Key('transacaoAuthDialogTextFieldSenha');
+
 class _TransacaoAuthDialogState extends State<TransacaoAuthDialog> {
   final TextEditingController _senhaController = TextEditingController();
 
@@ -19,6 +22,7 @@ class _TransacaoAuthDialogState extends State<TransacaoAuthDialog> {
     return AlertDialog(
       title: Text("Senha 4 digitos"),
       content: TextField(
+        key: transacaoAuthDialogKeyTextFieldSenha,
         controller: _senhaController,
         obscureText: true,
         maxLength: 4,

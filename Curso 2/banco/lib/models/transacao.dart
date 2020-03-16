@@ -21,4 +21,15 @@ class Transacao {
         'value': value,
         'contact': contato.toJson(),
       };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Transacao &&
+          runtimeType == other.runtimeType &&
+          value == other.value &&
+          contato == other.contato;
+
+  @override
+  int get hashCode => value.hashCode ^ contato.hashCode;
 }
